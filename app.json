@@ -15,16 +15,34 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "infoPlist": {
+        "UIBackgroundModes": [
+          "audio"
+        ]
+      }
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "permissions": [
+        "VIBRATE",
+        "SYSTEM_ALERT_WINDOW",
+        "WAKE_LOCK",
+        "RECEIVE_BOOT_COMPLETED",
+        "RECORD_AUDIO",
+        "PLAY_AUDIO"   
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "a77a23dd-3417-4dfe-ad66-4e8dd732cedb"
+      }
     }
   }
 }
