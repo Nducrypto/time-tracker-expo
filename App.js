@@ -4,7 +4,7 @@ import TimeTracker from "./Components/TimeTracker/TimerTracker.jsx";
 import { ContextProvider } from "./utils/ContextProvider.jsx";
 import Settings from "./Components/Settings/Settings.jsx";
 import Icon from "react-native-vector-icons/FontAwesome";
-import { AppRegistry, TouchableOpacity, StyleSheet, Text } from "react-native";
+import { AppRegistry, TouchableOpacity, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import React, { useEffect } from "react";
 import * as TaskManager from "expo-task-manager";
@@ -23,33 +23,30 @@ TaskManager.defineTask(BACKGROUND_FETCH_TASK, async ({ data, error }) => {
   if (data) {
     console.log(`Fetched ${data} successfully`);
 
-    const updateCountdown = () => {
-      if (timerState.seconds > 0) {
-        timerState.seconds -= 1;
-      } else if (timerState.minutes > 0) {
-        timerState.minutes -= 1;
-        timerState.seconds = 59;
-      } else if (timerState.hours > 0) {
-        timerState.hours -= 1;
-        timerState.minutes = 59;
-        timerState.seconds = 59;
-      }
-
-      console.log(timerState);
-
-      setTimeout(updateCountdown, 1000);
-      return timerState.seconds;
-    };
-
     updateCountdown();
   }
 });
+const updateCountdown = () => {
+  if (timerState.seconds > 0) {
+    timerState.seconds -= 1;
+  } else if (timerState.minutes > 0) {
+    timerState.minutes -= 1;
+    timerState.seconds = 59;
+  } else if (timerState.hours > 0) {
+    timerState.hours -= 1;
+    timerState.minutes = 59;
+    timerState.seconds = 59;
+  }
 
+  console.log(timerState);
+
+  setTimeout(updateCountdown, 1000);
+};
 export default function App() {
   async function registerBackgroundFetchAsync() {
     console.log("Successfully registerd");
     return BackgroundFetch.registerTaskAsync(BACKGROUND_FETCH_TASK, {
-      minimumInterval: 1,
+      minimumInterval: 2,
       stopOnTerminate: false,
       startOnBoot: true,
     });
@@ -74,7 +71,6 @@ export default function App() {
                     style={styles.icon}
                     onPress={() => navigate("Settings")}
                   >
-                    <Text>{updateCountdown()}</Text>
                     <Icon name="gear" size={25} color="blue" />
                   </TouchableOpacity>
                 );
